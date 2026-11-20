@@ -39,3 +39,21 @@ for safety reasons. So this feature is only pursued through BMW's own M View.
 
 Documentation of what was found and, if it works, the exact coding values per car. No code change is planned
 unless a safe path through factory software appears.
+
+## Reference: what the X3 M (F97) has
+
+- The X3 M (F97, 2019-2021 pre-LCI and 2021-2024 LCI) was built with **iDrive 7** (MGU head unit) and the later
+  digital cluster from the start; it never had NBT EVO.
+- Its head-up display has **M View**: a rev band whose fields light yellow, then red, towards the shift point,
+  the gear, and the speed. BMW's M manuals say M View is active in the M driving programs (Sport / Track), and that
+  shift lights move to the cluster when the HUD is off. No documented HUD difference between pre-LCI and LCI was found.
+- The same software family offers cluster layouts such as "M" and "M with shift lights" (BimmerCode lists these as
+  needing the later cluster generation, DKOMBI4).
+
+## Ways to get it on an NBT EVO car (e.g. G01 X3 M40i, 2019)
+
+| Route | What it gives | Effort / risk |
+|---|---|---|
+| Coding on the current hardware | M View in the HUD, if the head unit, cluster and HUD software contain it | Cheap and reversible with a coding backup. Reports suggest NBT EVO / DKOMBI2 cars lack it; check first (plan above) |
+| Hardware retrofit to iDrive 7 (MGU head unit, new cluster, screen, controller, RAM module, programming) | M View with tacho and shift lights by coding, M cluster layouts, CarPlay guidance in the HUD natively (this bridge would no longer be needed) | Professional retrofit, reported cost in the thousands; not a software change this project can make |
+| Drawing a rev band through this project's navigation channel | - | Not possible: the channel only shows arrows, distance, street and lanes, and faking engine data is out of scope |
