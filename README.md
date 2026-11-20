@@ -90,7 +90,7 @@ Switch on SSH with Bavarian, start the wizard, sign in (step 3), then click **To
 
 - It only runs inside the **wireless CarPlay** connection. Bluetooth, BMW navigation and everything else stay original.
 - Don't run a BMW navigation route and a Google Maps route at the same time. The bridge doesn't step aside for BMW navigation.
-- No lane guidance (the bridge doesn't support it yet).
+- No lane guidance (the bridge doesn't support it yet, it is being tested for next release).
 - If something misbehaves while driving, end the route in Google Maps, or turn the iPhone's Wi-Fi off once you've
   stopped safely. Restarting the iDrive does **not** turn the installed bridge off; use Tools / Undo for that.
 - Don't combine it with other CarPlay or Android Auto cluster mods (st1ng's CarPlay Advanced, or a running NBT-AAD).
