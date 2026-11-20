@@ -1,0 +1,44 @@
+name: Problem report
+description: Something didn't work as the wizard or docs said.
+title: "Problem: <short description>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Safety-related?** (head unit not booting, iDrive restarting, anything affecting other systems)
+        Please use the private "Report a vulnerability" button on the Security tab instead.
+
+        **Before you submit:** remove your VIN, head-unit serial number, Wi-Fi name/password, MAC addresses,
+        phone names and street names. Never attach files from Documents\BMW-CarPlay-HUD-backups.
+  - type: input
+    id: car
+    attributes:
+      label: Car model, year and iDrive software
+      placeholder: e.g. X3 G01 2019, NBTevo_Y24073J
+    validations:
+      required: true
+  - type: input
+    id: step
+    attributes:
+      label: Which wizard step?
+      placeholder: e.g. Step 6 - Test 1
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Technical details (redacted)
+      description: From the wizard's "Technical details" box, or Tools / Undo > Open the technical log of the last step.
+      render: text
+  - type: input
+    id: windows
+    attributes:
+      label: Windows and PowerShell 7 versions
+      placeholder: e.g. Windows 11 24H2, PowerShell 7.5

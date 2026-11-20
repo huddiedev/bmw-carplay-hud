@@ -1,0 +1,68 @@
+name: Compatibility report
+description: Tell us whether the check and the arrows worked on your car.
+title: "Compatibility: <model> <year> <iDrive software>"
+labels: ["compatibility"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! **Before you submit:** remove your VIN, head-unit serial number, Wi-Fi name/password,
+        MAC addresses, phone names and street names.
+  - type: input
+    id: car
+    attributes:
+      label: Car model and year
+      placeholder: e.g. X3 G01 2019
+    validations:
+      required: true
+  - type: input
+    id: software
+    attributes:
+      label: iDrive software version
+      description: Shown by the "Check the car" step, or in the iDrive under software version.
+      placeholder: e.g. NBTevo_Y24073J
+    validations:
+      required: true
+  - type: dropdown
+    id: displays
+    attributes:
+      label: Displays in the car
+      options:
+        - Head-up display + digital cluster
+        - Head-up display only
+        - Digital cluster only
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: check
+    attributes:
+      label: Result of "Check the car"
+      options:
+        - Passed
+        - Stopped (files did not match)
+        - Stopped (other reason)
+    validations:
+      required: true
+  - type: dropdown
+    id: arrows
+    attributes:
+      label: How far did you get?
+      options:
+        - Did not test further
+        - Test 1 passed (watch only)
+        - Test 2 passed - arrows on the HUD
+        - Installed permanently and working
+        - Problem (describe below)
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: Navigation app(s) tested
+      placeholder: e.g. Google Maps, Apple Maps
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else, including the STOP reason if the check stopped. Paste technical details only after removing personal data.

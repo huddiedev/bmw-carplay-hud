@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The bridge itself (upstream)
+    url: https://github.com/ftojke/BMW-iDrive6-CarPlay-HUD
+    about: Questions about how the CarPlay -> HUD bridge works internally.
+  - name: Bavarian SSH client
+    url: https://ssh.bavarian-aa.uk/
+    about: Problems switching on SSH belong to the Bavarian SSH client's authors.

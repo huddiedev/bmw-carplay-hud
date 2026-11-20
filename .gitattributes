@@ -1,0 +1,6 @@
+# Store and deliver every file byte-for-byte, so the downloaded files always match SHA256SUMS.
+# (Car-side .sh files must keep Unix line endings; Start-Wizard.cmd is already saved with Windows line endings.)
+* -text
+*.so  binary
+*.exe binary
+*.zip binary

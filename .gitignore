@@ -1,0 +1,13 @@
+# Never commit anything taken from a car: backups contain the CarPlay Wi-Fi password, serial numbers and BMW binaries.
+BMW-CarPlay-HUD-backups/
+backup-*/
+logs/
+state.json
+manifest.json
+report.txt
+iap2_Wifi.cfg
+*.log
+known_hosts*
+# Built on your own PC by the wizard
+cphud-askpass.exe
+cphud-askpass.sha256
