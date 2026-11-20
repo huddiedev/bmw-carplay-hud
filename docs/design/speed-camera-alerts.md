@@ -72,3 +72,20 @@ speed cameras, and France only allows warnings about general "danger zones". Els
 Google Maps and Waze. So the feature: ships **off**; asks for the country when you switch it on; shows that
 country's rule if it's known to be restrictive; and leaves the decision and responsibility with the user. The list
 of restrictive countries is kept in a data file people can correct by pull request.
+
+## Turning it on and off in the iDrive
+
+Not inside BMW's own Head-Up Display menu: that menu belongs to BMW's iDrive software, and adding items to it would
+mean patching factory files for every software version. Instead it gets **its own iDrive app** under My Vehicle,
+using the same community iDrive-app framework (ID6 apps) that already runs BoostDeck and MHD+ on NBT EVO cars:
+
+1. **HUD camera alerts: On / Off** (off by default).
+2. Switching it on asks, with the iDrive controller:
+   - **Distance:** 300 / 500 / **700** / 1000 m
+   - **Only above:** 60 / 80 / **100** / 120 / 140 km/h
+   - **Country**, then shows that country's rule if camera alerts are restricted there, and needs a confirm.
+3. The choices are saved on the head unit, and the camera helper reads them within a few seconds.
+
+The settings page is static (no fast refresh), so it stays clear of the iDrive freezes seen with apps that redraw
+every 16-25 ms. Building the app needs the same QNX build setup, plus a licence check of the ID6 apps framework
+before anything that depends on it is published.
