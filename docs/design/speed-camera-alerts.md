@@ -5,8 +5,9 @@ been tested on a car.
 
 ## Goal
 
-When the car is within **700 m** of a fixed speed camera ahead, at **100 km/h or more** (both configurable),
-show a camera warning in the head-up display with the distance counting down.
+Show a camera warning in the head-up display, with the distance counting down, when the car is within **700 m** of
+a fixed speed camera ahead **and** travelling **above 100 km/h**. Below 100 km/h nothing is shown, so city driving
+stays quiet. Both numbers are settings (`alert_distance_m = 700`, `min_speed_kmh = 100`).
 
 ## Legal note
 
@@ -27,7 +28,7 @@ software level and production date. Check whether it's offered for the car befor
 |---|---|
 | Position and speed | From the head unit's own GPS / navigation (QNX PPS objects such as geolocation or navigation status). To be found with a read-only probe on the car. |
 | Camera list | OpenStreetMap `highway=speed_camera` points (ODbL licence, attribution in NOTICE.md) and/or your own CSV file (lat, lon, limit, direction). Prepared on the laptop, copied into `/fs/sda0/opt/aa-cp`; the car never downloads anything. |
-| Alert logic | Camera within 700 m, roughly ahead (bearing to the camera within about 30 degrees of the car's heading, and matching the camera's direction if known), speed at or above the threshold. One alert per camera; distance updated every 50 m; cleared after passing it or after 30 s. |
+| Alert logic | **Start** when a camera is within 700 m and roughly ahead (bearing to the camera within about 30 degrees of the car's heading, and matching the camera's direction if known) **and** the speed is above 100 km/h. **Keep showing** it until the camera is passed, even if you slow below 100 km/h on the approach, so the warning doesn't vanish while braking. **Clear** when the camera is behind the car or 30 s after passing. Distance updated every 50 m. One alert per camera; the same camera can't trigger again for 5 minutes. Below 100 km/h no new alert ever starts. |
 | Display | The instrument cluster's **navigation guidance** service, the same channel as the CarPlay arrows: straight-ahead arrow, distance countdown, text such as `SPEED CAMERA 100`. Never interrupts an active turn instruction; to be tuned after testing. It uses only the navigation display: no driver-assistance or speed-limit-sign channels. |
 | Where it runs | A small helper on the head unit, started by the existing starter script while the iPhone is connected. No boot-script changes. |
 | Build | Needs the QNX 6.5 cross-compiler (the same blocker as lane arrows: virtualization is off on the build laptop, or use GitHub Actions). |
@@ -42,7 +43,8 @@ software level and production date. Check whether it's offered for the car befor
 
 ## Open questions
 
-- The exact trigger: at or above 100 km/h, or above the camera's own limit?
+- Decided: alert only within 700 m **and** above 100 km/h. Possible later option (off by default): also warn below
+  100 km/h when above the camera's own limit, for city cameras.
 - Should a camera alert show while Google Maps guidance is active, and how?
 - Which camera sources to use for your region.
 
@@ -60,7 +62,7 @@ Each source's licence and attribution travel with the converted file.
 | Waze, Google, TomTom, HERE and other commercial databases | Good | Proprietary: no free API; TomTom and HERE are paid licences | **Not used**, unless a user imports a file they're licensed to use |
 
 Data quality rules: drop duplicates within 30 m; use `direction` (OSM) when present so cameras for the opposite
-carriageway don't trigger; keep the camera's own limit when known (for the "above the camera's limit" trigger);
+carriageway don't trigger; keep the camera's own limit when known (for the possible later "above the camera's limit" option);
 store when the data was fetched, and remind the user to refresh it after 90 days.
 
 ### Legality, per country
