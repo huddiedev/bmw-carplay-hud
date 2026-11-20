@@ -16,13 +16,14 @@ Get these ready before you go to the car. The wizard's step 2 checks the laptop 
 | Item | Where to get it |
 |---|---|
 | Windows 10 or 11 | - |
-| PowerShell 7 (free, Microsoft) | <https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows>, or in a Command Prompt: `winget install Microsoft.PowerShell` |
+| PowerShell 7 (free, Microsoft) | The wizard's "Install PowerShell 7 now" button (step 2) does it for you. Or in a Command Prompt: `winget install Microsoft.PowerShell`, or <https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows> |
 | Windows OpenSSH Client | Built in. If missing: Settings > System > Optional features > Add a feature > "OpenSSH Client" |
 | Bavarian SSH client (free) | <https://ssh.bavarian-aa.uk/>. Extract it anywhere under Downloads, Desktop or Documents; the wizard finds and starts it (or use "Find Bavarian on this laptop...") |
 | ENET cable (OBD-II to Ethernet RJ45) | The same cable used for BMW coding. A USB-to-Ethernet adapter works if the laptop has no network port |
 | The head unit's SSH root password | Not published by this project |
 
-Windows PowerShell 5.1 (built into Windows) runs the wizard window; PowerShell 7 runs each step on the car.
+Why two PowerShells? Windows PowerShell 5.1 (built into every Windows) runs the wizard window. PowerShell 7 runs each
+step on the car: it is the version those steps were tested with, and it sends files to the car byte-for-byte.
 
 ## On the day
 

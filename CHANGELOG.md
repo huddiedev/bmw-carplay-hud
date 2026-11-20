@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.1
+
+- Step 2 can install PowerShell 7 with one click (Microsoft's winget), and explains why it's needed next to the
+  PowerShell built into Windows.
+- Finds PowerShell 7 right after installing it, without restarting the wizard.
+
 ## v0.9.0 - first public beta
 
 - Windows wizard (`Start-Wizard.cmd`): 12 guided steps, a typed `CHANGE IDRIVE` confirmation for every change, and a

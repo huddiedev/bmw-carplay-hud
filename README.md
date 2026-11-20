@@ -33,7 +33,7 @@ any NBT EVO car. Please report your result (see [docs/COMPATIBILITY.md](docs/COM
 ## What you need
 
 - A **Windows 10 or 11 laptop** with:
-  - **PowerShell 7** (free, from Microsoft; the wizard links to it if it's missing)
+  - **PowerShell 7** (free, from Microsoft; if it's missing, the wizard installs it for you with one click)
   - the **OpenSSH Client** (built into Windows; the wizard tells you if it's switched off)
 - An **ENET cable** (OBD-II to Ethernet), the same kind used for BMW coding.
 - The free **Bavarian SSH client** from <https://ssh.bavarian-aa.uk/>. It switches on SSH until the next iDrive
@@ -106,4 +106,4 @@ Switch on SSH with Bavarian, start the wizard, sign in (step 3), then click **To
 - [NOTICE.md](NOTICE.md): credits, licence and trademarks
 - [CHANGELOG.md](CHANGELOG.md) | [CONTRIBUTING.md](CONTRIBUTING.md) | [SECURITY.md](SECURITY.md)
 
-Status: **v0.9.0 beta**, tested on two cars. Please send a compatibility report from yours (Issues > New issue).
+Status: **v0.9.1 beta**, tested on two cars. Please send a compatibility report from yours (Issues > New issue).

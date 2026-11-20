@@ -51,7 +51,9 @@ $script:LastTry    = ''
 function Find-Pwsh {
     $c = Get-Command pwsh.exe -ErrorAction SilentlyContinue
     if ($c) { return $c.Path }
-    foreach ($p in @((Join-Path $env:ProgramFiles 'PowerShell\7\pwsh.exe'), (Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps\pwsh.exe'))) {
+    # Also finds a copy installed while the wizard is open (this window's PATH is not refreshed)
+    foreach ($p in @((Join-Path $env:ProgramFiles 'PowerShell\7\pwsh.exe'), (Join-Path $env:ProgramFiles 'PowerShell\7-preview\pwsh.exe'),
+                     (Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps\pwsh.exe'))) {
         if (Test-Path -LiteralPath $p) { return $p }
     }
     return $null
@@ -583,6 +585,9 @@ $Pages = @(
             '',
             'Plan 30-45 minutes. The steps restart CarPlay a few times; the iDrive keeps working throughout.',
             '',
+            'Why PowerShell 7? This window runs on the PowerShell built into Windows. The steps on the car run on PowerShell 7,',
+            'a free, separate Microsoft program (the version the car steps were tested with). If it is missing, click "Install PowerShell 7 now".',
+            '',
             'Tick each item when it is true:')
         Build = {
             Add-Check 'Car in P, parking brake on, outdoors or in a well-ventilated place' 'rd_park' | Out-Null
@@ -594,11 +599,19 @@ $Pages = @(
             Add-Break
             Add-Action 'Open the Bavarian website' { Start-Process $BavarianUrl } 240 | Out-Null
             Add-Action 'Find Bavarian on this laptop...' { $p = Select-Bavarian; if ($p) { $script:BavPath = $p; Show-Page $script:Page } } 260 | Out-Null
-            if (-not $script:Pwsh) { Add-Action 'Get PowerShell 7 (free, from Microsoft)' { Start-Process $PwshUrl } 300 | Out-Null }
+            if (-not $script:Pwsh) {
+                if (Get-Command winget.exe -ErrorAction SilentlyContinue) {
+                    Add-Action 'Install PowerShell 7 now (free, from Microsoft)' {
+                        Start-Process -FilePath 'cmd.exe' -ArgumentList '/k winget install --id Microsoft.PowerShell -e --source winget & echo. & echo When it says Successfully installed: close this window and click "Check this laptop again" in the wizard.'
+                        Set-Result 'A window is installing PowerShell 7 (Windows may ask for permission). When it says "Successfully installed", close it and click "Check this laptop again".' 'info'
+                    } 340 | Out-Null
+                }
+                Add-Action 'PowerShell 7 download page' { Start-Process $PwshUrl } 240 | Out-Null
+            }
             if (-not (Test-Path -LiteralPath $SshExe)) { Add-Action 'Add the Windows OpenSSH Client' { Start-Process 'ms-settings:optionalfeatures' } 300 | Out-Null }
             Add-Action 'Check this laptop again' { $script:Pwsh = Find-Pwsh; Show-Page $script:Page } 240 | Out-Null
             $msg = @()
-            if ($script:Pwsh) { $msg += "$Tick PowerShell 7 found" } else { $msg += 'PowerShell 7 is missing: install it, then click "Check this laptop again".' }
+            if ($script:Pwsh) { $msg += "$Tick PowerShell 7 found" } else { $msg += 'PowerShell 7 is missing: click "Install PowerShell 7 now", then "Check this laptop again".' }
             if (Test-Path -LiteralPath $SshExe) { $msg += "$Tick Windows OpenSSH Client found" } else { $msg += 'Windows OpenSSH Client is missing: Settings > System > Optional features > Add "OpenSSH Client".' }
             if ($script:BavPath) { $msg += "$Tick Bavarian found (the wizard starts it for you)" } elseif (-not $Demo) { $msg += 'Bavarian not found: download it, or tick the box if you start it yourself.' }
             $kind = 'ok'; if (-not $script:Pwsh -or -not (Test-Path -LiteralPath $SshExe)) { $kind = 'bad' }
