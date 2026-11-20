@@ -57,3 +57,20 @@ unless a safe path through factory software appears.
 | Coding on the current hardware | M View in the HUD, if the head unit, cluster and HUD software contain it | Cheap and reversible with a coding backup. Reports suggest NBT EVO / DKOMBI2 cars lack it; check first (plan above) |
 | Hardware retrofit to iDrive 7 (MGU head unit, new cluster, screen, controller, RAM module, programming) | M View with tacho and shift lights by coding, M cluster layouts, CarPlay guidance in the HUD natively (this bridge would no longer be needed) | Professional retrofit, reported cost in the thousands; not a software change this project can make |
 | Drawing a rev band through this project's navigation channel | - | Not possible: the channel only shows arrows, distance, street and lanes, and faking engine data is out of scope |
+
+## Lead: a second way to draw on the HUD (MOST HUDTerminal)
+
+The community iDrive app "HUD Gauges" (ID6 apps) draws live gauges on the factory HUD through a different channel
+than the navigation guidance service: the HUD's MOST "HUDTerminal" (82/00 at node 0101), fed with real engine data
+read from the engine control unit through the gateway (read-only diagnostic requests, the same way MHD-style apps
+read live data). So a rev band with shift lights drawn from real RPM might be possible after all, on cars where
+the HUD exposes that terminal. It uses real data, not faked signals.
+
+Known problems to solve before it's usable:
+- On a G01 (Y24073J), HUD Gauges **froze the iDrive** (live drawing faster than the iDrive's message loop keeps up;
+  apps refreshing every 100 ms were stable), and a saved "Show HUD gauges" starts its worker at every boot.
+- Polling RPM through the gateway may be too slow for shift lights (they need to react within about 50-100 ms).
+- It hasn't been shown that the G01's HUD accepts HUDTerminal drawing at all (the app was tested on an F30 340i).
+
+Next step: read-only. Check whether the HUDTerminal exists on this car, and study how HUD Gauges draws and why it
+freezes. Nothing is installed until a stable, low-rate version has been tested parked.
