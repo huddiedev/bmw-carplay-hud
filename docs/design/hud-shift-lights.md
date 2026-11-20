@@ -92,3 +92,29 @@ freezes. Nothing is installed until a stable, low-rate version has been tested p
 - The panel **belongs to factory navigation**: while BMW navigation shows guidance, the drawing app must step aside
   and stays hidden.
 - Verified only on F-series 6WA (F20). Whether a G01's HUD exposes this MOST terminal at all is still unknown.
+
+## Plan: decode the "create / add / position" HUD commands
+
+NBT-AAD names these commands (`CreateInstance` 0x200, `FrameAddItem` 0x22B, `ImageSetPositionRotation` 0xC06,
+`ImageAddBitmap` 0xC05, ...) but never worked out their format. BMW's own iDrive software must send them, because
+it builds the navigation panel in the HUD at every start-up. So the format can be learned from BMW's code and
+traffic, the same way NBT-AAD learned the drawing commands.
+
+1. **Find the code (read-only, at the car):** `cphud.ps1 hudscan` lists MOST/HUD processes, devices and PPS objects,
+   and names the iDrive program files that contain HUD-terminal code. If nothing turns up, this car's HUD is
+   driven only by the cluster over Ethernet, and this path ends there.
+2. **Copy those files to the laptop (read-only)** and analyse them with a disassembler/decompiler (Ghidra). Find
+   where each command's message is built, and record the field layout: handle, object type, x/y, width/height,
+   rotation, z-order. BMW binaries stay private: never committed, never shared.
+3. **Confirm with real traffic, if needed:** a passive logger of the iDrive's own HUD messages at start-up and
+   during BMW navigation (needs the QNX build setup).
+4. **Replay test, parked, memory only:** first send an exact copy of a factory message (it should change nothing
+   visible), then one small change at a time: a tiny shape in a new position. A restart clears everything.
+
+### Safety rules for this work
+
+- Never draw over the speed, warnings (collision, pedestrian, ACC, speed-limit) or anything else BMW shows. Hide
+  immediately whenever factory content takes over the area.
+- Only real data (actual RPM). Nothing that imitates a warning or a driver-assistance display.
+- Parked only until a stable version has passed parked tests; no use while driving before that.
+- One command type at a time; anything unexpected (iDrive lag, HUD flicker, restart) stops the work.
