@@ -45,3 +45,28 @@ software level and production date. Check whether it's offered for the car befor
 - The exact trigger: at or above 100 km/h, or above the camera's own limit?
 - Should a camera alert show while Google Maps guidance is active, and how?
 - Which camera sources to use for your region.
+
+## Camera data sources (for use worldwide)
+
+The project ships **no camera data**. The wizard downloads or imports it **on the user's laptop** for the
+countries they choose, converts it, and copies a compact file into `/fs/sda0/opt/aa-cp`. The car never goes online.
+Each source's licence and attribution travel with the converted file.
+
+| Source | Coverage | Licence / use | Role |
+|---|---|---|---|
+| **OpenStreetMap**: `highway=speed_camera` nodes, `enforcement` relations (`enforcement=maxspeed`, `maxspeed`, device/from/to members), `highway=red_light_camera` | Worldwide, but uneven: in 2021, for example, France had about 600 tagged cameras, Germany about 490, the US about 50, the UK about 13 | ODbL 1.0: free to use; attribution "(c) OpenStreetMap contributors"; a database derived from it stays ODbL | **Default, global.** Fetched per country or region (Overpass API with fair use, or a Geofabrik extract) |
+| **Government open data**, per country or state, for example Transport for NSW (Australia): fixed, red-light, school-zone and mobile camera locations | Only where a government publishes it; often very complete | Varies; NSW is CC BY 3.0 AU and is updated about yearly | **Optional adapters**, added country by country when a user asks and the licence allows it |
+| **Your own file (CSV)**: `lat,lon,type,limit,direction` | Whatever you have the right to use, for example a database you bought for personal use | Your responsibility under that product's terms | **Import**, never redistributed by this project |
+| Waze, Google, TomTom, HERE and other commercial databases | Good | Proprietary: no free API; TomTom and HERE are paid licences | **Not used**, unless a user imports a file they're licensed to use |
+
+Data quality rules: drop duplicates within 30 m; use `direction` (OSM) when present so cameras for the opposite
+carriageway don't trigger; keep the camera's own limit when known (for the "above the camera's limit" trigger);
+store when the data was fetched, and remind the user to refresh it after 90 days.
+
+### Legality, per country
+
+Camera alerts are **banned in some countries**: for example Germany and Switzerland ban devices that warn of
+speed cameras, and France only allows warnings about general "danger zones". Elsewhere they're legal and built into
+Google Maps and Waze. So the feature: ships **off**; asks for the country when you switch it on; shows that
+country's rule if it's known to be restrictive; and leaves the decision and responsibility with the user. The list
+of restrictive countries is kept in a data file people can correct by pull request.
