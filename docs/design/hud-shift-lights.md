@@ -74,3 +74,21 @@ Known problems to solve before it's usable:
 
 Next step: read-only. Check whether the HUDTerminal exists on this car, and study how HUD Gauges draws and why it
 freezes. Nothing is installed until a stable, low-rate version has been tested parked.
+
+### Where on the HUD can it be drawn? (from the NBT-AAD HUDTerminal source)
+
+- Drawing happens only **inside the factory navigation panel** (frame handle 1), the area where BMW navigation
+  draws its turn picture. The app reuses the objects BMW's software creates there: two picture buffers, a route
+  overlay, a lane strip and three text boxes. It can't create new ones.
+- Inside that panel, shapes can go **anywhere**: polygons use x/y coordinates on a canvas of roughly 200 x 130
+  units, verified on a 6WA cluster. So a rev band could be an arc across the top of the panel, a bar along its
+  bottom, and so on.
+- It **can't be moved outside the panel**, for example to an unused corner of the HUD. The protocol names
+  create/position commands (`CreateInstance`, `FrameAddItem`, `ImageSetPositionRotation`), but their formats are
+  unknown and the implementation refuses to send them. The panel's place on the windscreen is fixed by the HUD.
+- **Colours are palette numbers**, not RGB. Known so far: 4 = navigation main colour (white, or orange depending on
+  the cluster's scheme), 3 = light grey, 7 = black. Yellow, orange and red for the shift sequence would need a parked
+  colour sweep on the car; the HUD might not offer all three.
+- The panel **belongs to factory navigation**: while BMW navigation shows guidance, the drawing app must step aside
+  and stays hidden.
+- Verified only on F-series 6WA (F20). Whether a G01's HUD exposes this MOST terminal at all is still unknown.
