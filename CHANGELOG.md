@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.9.2
+
+- Added `AGENTS.md`: rules for AI assistants (such as Claude Code) helping a user run the setup, and a README
+  section on using Claude for the setup (experimental). Docs only; no code changed.
+
 ## v0.9.1
 
 - Step 2 can install PowerShell 7 with one click (Microsoft's winget), and explains why it's needed next to the

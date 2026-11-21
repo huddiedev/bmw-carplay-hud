@@ -96,6 +96,14 @@ Switch on SSH with Bavarian, start the wizard, sign in (step 3), then click **To
 - Don't combine it with other CarPlay or Android Auto cluster mods (st1ng's CarPlay Advanced, or a running NBT-AAD).
   The check stops if it finds one active.
 
+## Using Claude (or another AI assistant) to set this up
+
+Technical users can open this repository in Claude Code (the Claude desktop app, Code tab) and ask it to guide the
+setup. [AGENTS.md](AGENTS.md) tells the assistant the rules: read-only steps first, your explicit yes before every
+change, one stage at a time with a test after each, and it never handles your head unit password. You stay the
+operator: you approve each command and type `CHANGE IDRIVE` yourself. This route is **experimental**; the
+wizard is still the recommended way.
+
 ## More
 
 - [docs/PREREQUISITES.md](docs/PREREQUISITES.md): everything you need, with links
@@ -106,4 +114,4 @@ Switch on SSH with Bavarian, start the wizard, sign in (step 3), then click **To
 - [NOTICE.md](NOTICE.md): credits, licence and trademarks
 - [CHANGELOG.md](CHANGELOG.md) | [CONTRIBUTING.md](CONTRIBUTING.md) | [SECURITY.md](SECURITY.md)
 
-Status: **v0.9.1 beta**, tested on two cars. Please send a compatibility report from yours (Issues > New issue).
+Status: **v0.9.2 beta**, tested on two cars. Please send a compatibility report from yours (Issues > New issue).
